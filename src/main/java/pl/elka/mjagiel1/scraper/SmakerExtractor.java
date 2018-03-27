@@ -2,18 +2,26 @@ package pl.elka.mjagiel1.scraper;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import pl.elka.mjagiel1.scraper.storage.models.Recipe;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SmakerExtractor implements Extractor {
 
-  @Override public WebRecipe extractFromPage(Document doc) {
-    String recipeName = doc.select("h1[itemprop=name]").first().text();
+  @Override public Optional<Recipe> extractFromPage(Document doc) {
+    Element recipeName = doc.select("h1[itemprop=name]").first();
+
+    if (recipeName == null || recipeName.text().isEmpty()) {
+      return Optional.empty();
+    }
 
     List<String> tags = new ArrayList<>();
     Difficulty difficulty = Difficulty.UNKNOWN;
@@ -26,14 +34,36 @@ public class SmakerExtractor implements Extractor {
         .forEach(ingredients::add);
 
     String recipeText = doc.select(".preparation").first().text();
-    List<String> hrefs = new ArrayList<>();
 
-    doc.select("a[href]").stream()
-        .map(Element::text)
-        .forEach(hrefs::add);
+    String prefixUrl = getPrefixUrl(doc);
 
-    RecipeWebMeta webMeta = new RecipeWebMeta(doc, doc.baseUri(), hrefs);
-    return new WebRecipe(recipeName, tags, difficulty, preparationTime,
-        metaValues, ingredients, recipeText, webMeta);
+    List<String> hrefs = doc.select("a[href]").stream()
+        .map(e -> e.attr("href"))
+        .map(e -> addHost(e, prefixUrl))
+        .filter(e -> e.contains(prefixUrl))
+        .distinct()
+        .collect(Collectors.toList());
+
+    return Optional.of(new Recipe(recipeName.text(), ingredients, recipeText, tags, difficulty,
+        preparationTime, metaValues, doc.baseUri(), doc.html(), hrefs));
+  }
+
+  private String getPrefixUrl(Document doc) {
+    String prefixUrl = "";
+    try {
+      URI baseUri = new URI(doc.baseUri());
+      String host = baseUri.getHost();
+      prefixUrl = baseUri.getScheme() + "://" + host;
+    } catch (URISyntaxException ignored) {
+    }
+    return prefixUrl;
+  }
+
+  private String addHost(String href, String prefixUrl) {
+    if (href.startsWith("/")) {
+      return prefixUrl + href;
+    } else {
+      return href;
+    }
   }
 }
