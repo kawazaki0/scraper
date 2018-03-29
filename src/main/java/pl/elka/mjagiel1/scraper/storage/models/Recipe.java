@@ -15,14 +15,10 @@ public class Recipe {
   private final PreparationTime preparationTime;
   private final Map<String, String> metaValues;
 
-  private final String siteAddress;
-  private final String htmlSource;
-  private final List<String> hrefs;
 
   public Recipe(String recipeName, List<String> ingredients, String recipeText,
       List<String> tags, Difficulty difficulty,
-      PreparationTime preparationTime, Map<String, String> metaValues, String siteAddress,
-      String htmlSource, List<String> hrefs) {
+      PreparationTime preparationTime, Map<String, String> metaValues) {
     this.recipeName = recipeName;
     this.ingredients = ingredients;
     this.recipeText = recipeText;
@@ -30,9 +26,6 @@ public class Recipe {
     this.difficulty = difficulty;
     this.preparationTime = preparationTime;
     this.metaValues = metaValues;
-    this.siteAddress = siteAddress;
-    this.htmlSource = htmlSource;
-    this.hrefs = hrefs;
   }
 
   public String getRecipeName() {
@@ -61,17 +54,5 @@ public class Recipe {
 
   public Map<String, String> getMetaValues() {
     return metaValues;
-  }
-
-  public String getSiteAddress() {
-    return siteAddress;
-  }
-
-  public String getHtmlSource() {
-    return htmlSource;
-  }
-
-  public List<String> getHrefs() {
-    return hrefs;
   }
 }

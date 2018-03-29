@@ -20,7 +20,7 @@ public class DBInitializeConfig {
     try {
       Connection connection = dataSource.getConnection();
       Statement statement = connection.createStatement();
-      statement.execute("DROP TABLE IF EXISTS UserLogin");
+//      statement.execute("DROP TABLE IF EXISTS UserLogin");
 //      statement.executeUpdate(
 //          "CREATE TABLE UserLogin(" +
 //              "id INTEGER Primary key, " +
