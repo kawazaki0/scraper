@@ -1,7 +1,5 @@
 package pl.elka.mjagiel1.scraper.storage.entities;
 
-import pl.elka.mjagiel1.scraper.storage.models.Recipe;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,15 +12,16 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Site")
+@Table(name = "Site", uniqueConstraints = @UniqueConstraint(columnNames = {"site_address"}))
 public class SiteEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Column(name = "site_address")
   private String siteAddress;
 
-  @Column(unique=true)
   private String htmlSource;
 
   @OneToOne(fetch = FetchType.LAZY)

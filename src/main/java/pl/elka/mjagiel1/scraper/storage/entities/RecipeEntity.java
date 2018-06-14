@@ -33,11 +33,14 @@ public class RecipeEntity {
   }
 
   public List<String> getIngredients() {
-    return Arrays.asList(this.ingredients.split("\\s*;\\s*"));
+    return Arrays.stream(this.ingredients.split("\\s*;\\s*"))
+        .map(i -> i.replace("\\;", ";"))
+        .collect(Collectors.toList());
   }
 
   public void setIngredients(List<String> ingredients) {
     this.ingredients = ingredients.stream()
+        .map(i -> i.replace(";", "\\;"))
         .collect(Collectors.joining(";"));
   }
 
