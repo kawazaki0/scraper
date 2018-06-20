@@ -24,7 +24,7 @@ public class TestTest {
 
     try (Stream<String> stream = new BufferedReader(new InputStreamReader(datasetInputStream))
         .lines()) {
-      stream.limit(10).forEach(line -> {
+      stream.limit(100).forEach(line -> {
         System.out.print(line + "\t --- \t");
         System.out.println(extractor.extract(line));
       });

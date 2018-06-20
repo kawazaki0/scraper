@@ -3,8 +3,6 @@ package pl.elka.mjagiel1.extractor;
 import org.annolab.tt4j.TreeTaggerException;
 import org.junit.Before;
 import org.junit.Test;
-import pl.elka.mjagiel1.extractor.Extractor;
-import pl.elka.mjagiel1.extractor.Ingredient;
 
 import java.io.IOException;
 
@@ -27,10 +25,15 @@ public class ExtractorTest {
     assertIngredientExtract("1 łyżka koncentratu pomidorowego", "1", "łyżka", "koncentrat pomidorowy");
   }
 
+  @Test
+  public void testTest() throws Exception {
+    assertIngredientExtract("kostka masła", "1", "kostka", "masło");
+  }
+
   private void assertIngredientExtract(String source, String quantity, String type, String name) throws IOException, TreeTaggerException {
     Ingredient ingredient = extractor.extract(source);
-    assertEquals(quantity, ingredient.getUnit().get().getQuantity());
-    assertEquals(type, ingredient.getUnit().get().getMatchedType());
+    assertEquals(quantity, ingredient.getUnit().getQuantity());
+    assertEquals(type, ingredient.getUnit().getUnitType().getMatchedType());
     assertEquals(name, ingredient.getName());
   }
 

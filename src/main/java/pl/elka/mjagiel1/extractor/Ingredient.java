@@ -1,39 +1,19 @@
 package pl.elka.mjagiel1.extractor;
 
-import java.util.Optional;
+import lombok.Data;
 
-public class Ingredient {
+@Data
+class Ingredient {
 
-  private String name;
-  private Optional<Unit> unit;
-//  private String category;
+  private final String name;
+  private final Unit unit;
 
-
-  public Ingredient(String name, Optional<Unit> unit) {
-    this.name = name;
-    this.unit = unit;
+  @Override public String toString() {
+    return "Ingredient{" + unit + " | " + name + '}';
   }
 
-  public String getName() {
-    return name;
-  }
+  //  private String category;
 
-  public void setName(String name) {
-    name = name.replaceAll(" ", "_");
-    this.name = name;
-  }
-
-  public Optional<Unit> getUnit() {
-    return unit;
-  }
-
-  public void setUnit(Optional<Unit> unit) {
-    this.unit = unit;
-  }
-
-//  public String getCategory() {
-//    return category;
-//  }
 
 //  public void setCategory(String category) {
 //    if (category == null) {
@@ -95,13 +75,4 @@ public class Ingredient {
 //    }
 //  }
 
-
-  @Override public String toString() {
-    return "Ingredient{" +
-        "name='" + name + '\'' +
-        ", unit=" + unit +
-//        ", quantity='" + quantity + '\'' +
-//        ", category='" + category + '\'' +
-        '}';
-  }
 }

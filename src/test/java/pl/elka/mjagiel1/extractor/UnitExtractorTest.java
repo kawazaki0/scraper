@@ -6,31 +6,45 @@ import static org.junit.Assert.*;
 
 public class UnitExtractorTest {
   @Test
-  public void testExtract() {
+  public void testReplaceToBaseTypeExtract() {
     UnitExtractor unitExtractor = new UnitExtractor();
-    Unit unit = unitExtractor.extract("1 kg ziemniak").get();
-    assertEquals("kilogram", unit.getMatchedType());
+    Unit unit = unitExtractor.extract("1 kg ziemniak");
+    assertEquals("kilogram", unit.getUnitType().getMatchedType());
     assertEquals("1", unit.getQuantity());
   }
   @Test
-  public void testExtract2() {
+  public void testTwoLettersDifferent() {
     UnitExtractor unitExtractor = new UnitExtractor();
-    Unit unit = unitExtractor.extract("5 łyżek ziemniaków").get();
-    assertEquals("łyżka", unit.getMatchedType());
+    Unit unit = unitExtractor.extract("5 łyżek ziemniaków");
+    assertEquals("łyżka", unit.getUnitType().getMatchedType());
     assertEquals("5", unit.getQuantity());
   }
   @Test
-  public void testExtract3() {
+  public void testNumberAndTypeWithoutSpace() {
     UnitExtractor unitExtractor = new UnitExtractor();
-    Unit unit = unitExtractor.extract("przecier pomidorowy 500ml").get();
-    assertEquals("ml", unit.getMatchedType());
+    Unit unit = unitExtractor.extract("przecier pomidorowy 500ml");
+    assertEquals("ml", unit.getUnitType().getMatchedType());
     assertEquals("500", unit.getQuantity());
   }
   @Test
-  public void testExtract4() {
+  public void testDefault() {
     UnitExtractor unitExtractor = new UnitExtractor();
-    Unit unit = unitExtractor.extract("8 jajek").get();
-    assertEquals("szt", unit.getMatchedType());
+    Unit unit = unitExtractor.extract("8 jajek");
+    assertEquals("szt", unit.getUnitType().getMatchedType());
     assertEquals("8", unit.getQuantity());
+  }
+  @Test
+  public void testNoQuantityNoType() {
+    UnitExtractor unitExtractor = new UnitExtractor();
+    Unit unit = unitExtractor.extract("jajka");
+    assertEquals("szt", unit.getUnitType().getMatchedType());
+    assertEquals("1", unit.getQuantity());
+  }
+  @Test
+  public void testNoQuantityWithType() {
+    UnitExtractor unitExtractor = new UnitExtractor();
+    Unit unit = unitExtractor.extract("kostka masła");
+    assertEquals("kostka", unit.getUnitType().getMatchedType());
+    assertEquals("1", unit.getQuantity());
   }
 }
