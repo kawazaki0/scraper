@@ -36,6 +36,7 @@ public class UnitExtractor {
     this.model.put("plaster", Arrays.asList("plaster"));
     this.model.put("puszka", Arrays.asList("puszka"));
     this.model.put("opakowanie", Arrays.asList("opakowanie", "op"));
+    this.model.put("tabliczka", Arrays.asList("tabliczka"));
   }
 
   public Unit extract(String source) {

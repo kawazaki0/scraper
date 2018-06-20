@@ -2,7 +2,7 @@ package pl.elka.mjagiel1;
 
 import org.junit.Before;
 import org.junit.Test;
-import pl.elka.mjagiel1.extractor.Extractor;
+import pl.elka.mjagiel1.extractor.IngredientExtractor;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -11,11 +11,11 @@ import java.util.stream.Stream;
 
 public class TestTest {
 
-  Extractor extractor;
+  IngredientExtractor extractor;
 
   @Before
   public void setUp() throws Exception {
-    extractor = new Extractor();
+    extractor = new IngredientExtractor();
   }
 
   @Test
