@@ -1,9 +1,10 @@
 package pl.elka.mjagiel1.extractor;
 
 import lombok.Data;
+import pl.elka.mjagiel1.extractor.unit.Unit;
 
 @Data
-class Ingredient {
+public class Ingredient {
 
   private final String name;
   private final Unit unit;

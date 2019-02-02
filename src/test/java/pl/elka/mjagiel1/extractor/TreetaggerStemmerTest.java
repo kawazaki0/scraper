@@ -1,11 +1,11 @@
 package pl.elka.mjagiel1.extractor;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import pl.elka.mjagiel1.extractor.tagger.TreetaggerStemmer;
 import pl.elka.mjagiel1.extractor.tagger.Tagset;
+import pl.elka.mjagiel1.extractor.tagger.TreetaggerStemmer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
+@Ignore
 public class TreetaggerStemmerTest {
 
   private TreetaggerStemmer stemmer;

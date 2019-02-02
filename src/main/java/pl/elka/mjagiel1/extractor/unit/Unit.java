@@ -1,9 +1,9 @@
-package pl.elka.mjagiel1.extractor;
+package pl.elka.mjagiel1.extractor.unit;
 
 import lombok.Data;
 
 @Data
-class Unit {
+public class Unit {
   private final String quantity;
   private final UnitType unitType;
 

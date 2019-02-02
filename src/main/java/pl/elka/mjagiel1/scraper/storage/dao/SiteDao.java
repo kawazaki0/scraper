@@ -9,6 +9,12 @@ public interface SiteDao extends CrudRepository<SiteEntity, Long> {
 
   List<SiteEntity> findSiteEntitiesByHtmlSourceEquals(String htmlSource);
 
+  List<SiteEntity> findSiteEntitiesByHtmlSourceNotAndHtmlSourceNotNullAndSiteAddressLike(String notHtmlSource, String addressLike);
+
   List<SiteEntity> findSiteEntitiesBySiteAddressEquals(String siteAddress);
+
+  default List<SiteEntity> findNotEmptyRecipes() {
+    return findSiteEntitiesByHtmlSourceNotAndHtmlSourceNotNullAndSiteAddressLike("error", "https://smaker.pl/przepis-%.html");
+  }
 
 }

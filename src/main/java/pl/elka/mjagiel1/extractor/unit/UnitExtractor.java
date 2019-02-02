@@ -1,4 +1,4 @@
-package pl.elka.mjagiel1.extractor;
+package pl.elka.mjagiel1.extractor.unit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.util.Pair;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class UnitExtractor {
 
-  private static final int TRESHOLD = 44;
+  private static final int THRESHOLD = 44;
   private Map<String, List<String>> model = new HashMap<>();
 
   public UnitExtractor() {
@@ -40,14 +40,14 @@ public class UnitExtractor {
   }
 
   public Unit extract(String source) {
-    Pair<String, String> quantityAndCandidate = getQuantity(source);
-    String quantity = quantityAndCandidate.getFirst();
-    String candidate = quantityAndCandidate.getSecond();
-    UnitType type = getUnit(candidate);
+    Pair<String, String> quantityAndTypeCandidate = getQuantity(source);
+    String quantity = quantityAndTypeCandidate.getFirst();
+    String candidate = quantityAndTypeCandidate.getSecond();
+    UnitType type = getUnitType(candidate);
     return new Unit(quantity, type);
   }
 
-  private UnitType getUnit(final String source) {
+  private UnitType getUnitType(final String source) {
     Optional<String> result = Optional.empty();
     String choosed = null;
     float maxPercent = 100;
@@ -66,7 +66,7 @@ public class UnitExtractor {
       for (String unit : units) {
         currentPercent = (float) StringUtils.getLevenshteinDistance(word, unit)
             / Math.max(word.length(), unit.length()) * 100;
-        if (currentPercent <= TRESHOLD && currentPercent < maxPercent) {
+        if (currentPercent <= THRESHOLD && currentPercent < maxPercent) {
           maxPercent = currentPercent;
           result = model.entrySet().stream()
               .filter(entry -> entry.getValue().contains(unit))
@@ -84,7 +84,7 @@ public class UnitExtractor {
 
   private Pair<String, String> getQuantity(String source) {
     String quantity;
-    String typeCandidate = "";
+    String typeCandidate;
     Pattern pattern = Pattern
         .compile("(\\d+([,/\\-\\.]\\d+)?)\\s?(\\p{L}+)");
     Matcher matcher = pattern.matcher(source);
