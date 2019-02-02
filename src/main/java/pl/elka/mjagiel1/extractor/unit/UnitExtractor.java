@@ -2,6 +2,7 @@ package pl.elka.mjagiel1.extractor.unit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.util.Pair;
+import pl.elka.mjagiel1.extractor.PredictResult;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,16 +41,16 @@ public class UnitExtractor {
   }
 
   public Unit extract(String source) {
-    Pair<String, String> quantityAndTypeCandidate = getQuantity(source);
-    String quantity = quantityAndTypeCandidate.getFirst();
+    Pair<PredictResult<String>, String> quantityAndTypeCandidate = getQuantity(source);
+    PredictResult<String> quantity = quantityAndTypeCandidate.getFirst();
     String candidate = quantityAndTypeCandidate.getSecond();
-    UnitType type = getUnitType(candidate);
-    return new Unit(quantity, type);
+    PredictResult<String> unitType = getUnitType(candidate);
+    return new Unit(quantity, unitType);
   }
 
-  private UnitType getUnitType(final String source) {
+  private PredictResult<String> getUnitType(final String source) {
     Optional<String> result = Optional.empty();
-    String choosed = null;
+    String rawUnit = null;
     float maxPercent = 100;
     float currentPercent;
 
@@ -72,29 +73,30 @@ public class UnitExtractor {
               .filter(entry -> entry.getValue().contains(unit))
               .map(Map.Entry::getKey)
               .findFirst();
-          choosed = word;
+          rawUnit = word;
         }
       }
     }
     if (!result.isPresent()) {
-      return new UnitType("szt", "");
+      return new PredictResult<>("", "szt", false);
     }
-    return new UnitType(result.get(), choosed);
+    return new PredictResult<>(rawUnit, result.get(), true);
   }
 
-  private Pair<String, String> getQuantity(String source) {
-    String quantity;
-    String typeCandidate;
+  private Pair<PredictResult<String>, String> getQuantity(String source) {
+    PredictResult<String> quantity;
+    String rawUnitType;
     Pattern pattern = Pattern
         .compile("(\\d+([,/\\-\\.]\\d+)?)\\s?(\\p{L}+)");
     Matcher matcher = pattern.matcher(source);
     if (matcher.find()) {
-      quantity = matcher.group(1);
-      typeCandidate = matcher.group(3);
+      String quantityRaw = matcher.group(1);
+      quantity = new PredictResult<>(quantityRaw, quantityRaw, true);
+      rawUnitType = matcher.group(3);
     } else {
-      quantity = "1";
-      typeCandidate = source;
+      quantity = new PredictResult<>("", "1", false);
+      rawUnitType = source;
     }
-    return Pair.of(quantity, typeCandidate);
+    return Pair.of(quantity, rawUnitType);
   }
 }

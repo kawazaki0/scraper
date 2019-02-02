@@ -6,7 +6,7 @@ import pl.elka.mjagiel1.extractor.unit.Unit;
 @Data
 public class Ingredient {
 
-  private final String name;
+  private final PredictResult<String> name;
   private final Unit unit;
 
   @Override public String toString() {

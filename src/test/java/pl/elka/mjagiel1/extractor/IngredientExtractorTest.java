@@ -28,9 +28,9 @@ public class IngredientExtractorTest {
 
   private void assertIngredientExtract(String source, String quantity, String type, String name) throws IOException, TreeTaggerException {
     Ingredient ingredient = extractor.extract(source);
-    assertEquals(quantity, ingredient.getUnit().getQuantity());
-    assertEquals(type, ingredient.getUnit().getUnitType().getMatchedType());
-    assertEquals(name, ingredient.getName());
+    assertEquals(quantity, ingredient.getUnit().getQuantity().getPredictedResult());
+    assertEquals(type, ingredient.getUnit().getUnitType().getPredictedResult());
+    assertEquals(name, ingredient.getName().getPredictedResult());
   }
 
 }

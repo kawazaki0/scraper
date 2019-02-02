@@ -42,7 +42,7 @@ public class UnitExtractorTest {
 
   private void assertUnit(boolean found, String source, String unitType, String unitQuantity) {
     Unit unit = unitExtractor.extract(source);
-    assertEquals(unitType, unit.getUnitType().getMatchedType());
-    assertEquals(unitQuantity, unit.getQuantity());
+    assertEquals(unitType, unit.getUnitType().getPredictedResult());
+    assertEquals(unitQuantity, unit.getQuantity().getPredictedResult());
   }
 }

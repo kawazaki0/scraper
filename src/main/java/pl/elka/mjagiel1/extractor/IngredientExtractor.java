@@ -14,12 +14,12 @@ public class IngredientExtractor {
     Unit unit = unitExtractor.extract(source);
     String textWithoutUnits = removeUnitFromSource(unit, source);
     PredictResult<String> predictedIngredientName = normalizer.normalize(textWithoutUnits);
-    return new Ingredient(predictedIngredientName.getPredictedResult(), unit);
+    return new Ingredient(predictedIngredientName, unit);
   }
 
   private String removeUnitFromSource(Unit unit, String textWithoutUnits) {
-    textWithoutUnits = textWithoutUnits.replace(unit.getQuantity(), "");
-    textWithoutUnits = textWithoutUnits.replace(unit.getUnitType().getRawType(), "");
+    textWithoutUnits = textWithoutUnits.replace(unit.getQuantity().getRawSource(), "");
+    textWithoutUnits = textWithoutUnits.replace(unit.getUnitType().getRawSource(), "");
     return textWithoutUnits;
   }
 

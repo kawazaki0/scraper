@@ -35,9 +35,9 @@ public class LabelTest {
         try {
           Ingredient ingredient = extractor.extract(line);
 
-          String quantity = ingredient.getUnit().getQuantity();
-          String unitType = ingredient.getUnit().getUnitType().getRawType();
-          String ingredientName = ingredient.getName();
+          String quantity = ingredient.getUnit().getQuantity().getPredictedResult();
+          String unitType = ingredient.getUnit().getUnitType().getRawSource();
+          String ingredientName = ingredient.getName().getPredictedResult();
 
           labeledList.write(quantity.getBytes());
           System.out.print(line + "\t --- \t");

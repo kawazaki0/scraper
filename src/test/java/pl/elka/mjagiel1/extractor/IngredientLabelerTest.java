@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertArrayEquals;
+import static pl.elka.mjagiel1.extractor.IngredientLabeler.Labels;
 
 public class IngredientLabelerTest {
 
@@ -13,12 +14,12 @@ public class IngredientLabelerTest {
 
   @Test
   public void test() {
-    assertLabel(Lists.newArrayList("QUAN", "UNIT", "INGR"), "1 kg ziemniak");
-    assertLabel(Lists.newArrayList("QUAN", "UNIT", "INGR"), "5 łyżek ziemniaków");
-    assertLabel(Lists.newArrayList("INGR", "INGR", "QUAN", "UNIT"), "przecier pomidorowy 500 ml");
-    assertLabel(Lists.newArrayList("QUAN", "INGR"), "8 jajek");
-    assertLabel(Lists.newArrayList("INGR"), "jajka");
-    assertLabel(Lists.newArrayList("UNIT", "INGR"), "kostka masła");
+    assertLabel(Lists.newArrayList(Labels.BEGIN_QUANTITY, Labels.BEGIN_UNIT, Labels.BEGIN_INGREDIENT), "1 kg ziemniak");
+    assertLabel(Lists.newArrayList("B-QUAN", "B-UNIT", "B-INGR"), "5 łyżek ziemniaków");
+    assertLabel(Lists.newArrayList("B-INGR", "I-INGR", "B-QUAN", "B-UNIT"), "przecier pomidorowy 500 ml");
+    assertLabel(Lists.newArrayList("B-QUAN", "B-INGR"), "8 jajek");
+    assertLabel(Lists.newArrayList("B-INGR"), "jajka");
+    assertLabel(Lists.newArrayList("B-UNIT", "B-INGR"), "kostka masła");
   }
 
   private void assertLabel(ArrayList expected, String source) {
